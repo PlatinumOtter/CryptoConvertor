@@ -3,38 +3,36 @@ import requests
 import json
 import datetime
 
-coinbase_coins = ["BTC", "BCH", "ETH", "LTC"]
+bitfinex_coins = ["LTC", "ETH", "ZEC", "XRP", "XMR"]
 
-
-def get_usd_exchange_rate(coin):
-    resp = requests.get(
-        "https://api.coinbase.com/v2/prices/{abr}-USD/spot"
-        .format(abr=coin))
+def get_btc_exchange_rate(coin):
+    resp = requests.get("https://api.bitfinex.com/v2/ticker/t{}BTC".format(coin))
     if resp.status_code == 200:
-        return json.loads(resp.text)["data"]["amount"]
+        return resp.text.split(",")[8]
     else:
         ValueError("Non 200 response from server")
     resp.close()
 
 
 def get_coin_list():
-    return coinbase_coins
+    return bitfinex_coins
 
 
-def update_coinbase():
+def update_bitfinex():
     connection = sqlite3.connect("exchanges.db")
     cursor = connection.cursor()
-    coins=get_coin_list()
+    coins = get_coin_list()
     for coin in coins:
         try:
-            rate = get_usd_exchange_rate(coin)
+            rate = get_btc_exchange_rate(coin)
             date = datetime.datetime.now()
             sql_update = """
-            UPDATE coinbase
-            SET usd={money}, updated='{now}'
+            UPDATE bitfinex
+            SET btc={money}, updated='{now}'
             WHERE coin='{abr}';
             """.format(money=rate, now=date, abr=coin)
             cursor.execute(sql_update)
+            print(sql_update)
         except:
             print("{abr} not updated.".format(abr=coin))
     connection.commit()
