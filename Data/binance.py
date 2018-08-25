@@ -19,21 +19,25 @@ def get_coin_list():
     return binance_coins
 
 
-def update_binance():
-    connection = sqlite3.connect("exchanges.db")
-    cursor = connection.cursor()
+def update_coin(coin):
+    try:
+        connection = sqlite3.connect("exchanges.db")
+        cursor = connection.cursor()
+        rate = get_btc_exchange_rate(coin)
+        date = datetime.datetime.now()
+        sql_update = """
+        UPDATE binance
+        SET btc={money}, updated='{now}'
+        WHERE coin='{abr}';
+        """.format(money=rate, now=date, abr=coin)
+        cursor.execute(sql_update)
+        connection.commit()
+    except:
+        print("{abr} not updated for binance.".format(abr=coin))
+    connection.close()
+
+
+def update_all():
     coins = get_coin_list()
     for coin in coins:
-        try:
-            rate = get_btc_exchange_rate(coin)
-            date = datetime.datetime.now()
-            sql_update = """
-            UPDATE binance
-            SET btc={money}, updated='{now}'
-            WHERE coin='{abr}';
-            """.format(money=rate, now=date, abr=coin)
-            cursor.execute(sql_update)
-        except:
-            print("{abr} not updated.".format(abr=coin))
-    connection.commit()
-    connection.close()
+        update_coin(coin)
