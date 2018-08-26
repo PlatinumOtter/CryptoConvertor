@@ -25,7 +25,7 @@ def update_coin(coin):
         date = datetime.datetime.now()
         sql_update = """
         UPDATE bitfinex
-        SET btc={money}, updated='{now}'
+        SET rate={money}, updated='{now}'
         WHERE coin='{abr}';
         """.format(money=rate, now=date, abr=coin)
         cursor.execute(sql_update)

@@ -29,7 +29,7 @@ def update_coin(coin):
         date = datetime.datetime.now()
         sql_update = """
         UPDATE coinbase
-        SET usd={money}, updated='{now}'
+        SET rate={money}, updated='{now}'
         WHERE coin='{abr}';
         """.format(money=rate, now=date, abr=coin)
         cursor.execute(sql_update)
@@ -40,6 +40,6 @@ def update_coin(coin):
 
 
 def update_all():
-    coins=get_coin_list()
+    coins = get_coin_list()
     for coin in coins:
         update_coin(coin)

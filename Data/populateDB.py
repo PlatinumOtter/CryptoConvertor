@@ -14,7 +14,7 @@ cursor.execute(drop_coinbase)
 create_coinbase_table = """
 CREATE TABLE coinbase (
 coin VARCHAR(10) PRIMARY KEY,
-usd FLOAT DEFAULT 1,
+rate FLOAT DEFAULT 1,
 updated DATETIME DEFAULT 0);"""
 cursor.execute(create_coinbase_table)
 
@@ -36,7 +36,7 @@ cursor.execute(drop_binance)
 create_binance_table = """
 CREATE TABLE binance (
 coin VARCHAR(10) PRIMARY KEY,
-btc FLOAT DEFAULT 1,
+rate FLOAT DEFAULT 1,
 updated DATETIME DEFAULT 0);"""
 cursor.execute(create_binance_table)
 
@@ -58,7 +58,7 @@ cursor.execute(drop_bitfinex)
 create_bitfinex_table = """
 CREATE TABLE bitfinex (
 coin VARCHAR(10) PRIMARY KEY,
-btc FLOAT DEFAULT 1,
+rate FLOAT DEFAULT 1,
 updated DATETIME DEFAULT 0);"""
 cursor.execute(create_bitfinex_table)
 
