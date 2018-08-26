@@ -19,5 +19,15 @@ def getrate(table):
         return jsonify({'rate': resp[0][0], 'updated': resp[0][1]})
 
 
+@app.route('/api/v1.0/listcoins/<string:table>', methods=['GET'])
+def getcoinlist(table):
+    connection = sqlite3.connect(os.path.join(os.pardir, "Data", "exchanges.db"))
+    cursor = connection.cursor()
+    query = 'select coin from {};'.format(table)
+    resp = cursor.execute(query).fetchall()
+    connection.close()
+    return jsonify({'coins': resp})
+
+
 if __name__ == '__main__':
     app.run(debug=True)
