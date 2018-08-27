@@ -28,6 +28,15 @@ def getcoinlist(table):
     connection.close()
     return jsonify({'coins': resp})
 
+@app.route('/api/v1.0/convert/<string:table>', methods=['GET'])
+def convert(table):
+    coin1 = "{}".format(request.args.get('coin1'))
+    coin2 = "{}".format(request.args.get('coin2'))
+    amount = request.args.get('amount')
+    connection = sqlite3.connect(os.path.join(os.pardir, "Data", "exchanges.db"))
+    cursor = connection.cursor()
+    query = 'select rate from {thetable} where coin="{thecoin}";'.format(thetable=table, thecoin=coin)
+
 
 if __name__ == '__main__':
     app.run(debug=True)
