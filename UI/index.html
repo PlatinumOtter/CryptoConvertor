@@ -11,15 +11,15 @@
 <h3>Exchange:</h3>
 <div class="dropdown">
     <select id="exchange">
-        <option value="coinbase" selected="selected">CoinBase</option>
-        <option value="binance">Binance</option>
+        <option value="coinbase">CoinBase</option>
+        <option value="binance" selected="selected">Binance</option>
         <option value="bitfinex">Bitfinex</option>
     </select>
 </div>
 <form>
-    Coin from: <input type="text" name="coin1">
-    Amount: <input type="number" name="amount">
-    Coin to: <input type="text" name="coin2">
+    Coin from: <input type="text" name="coin1" value="LTC">
+    Amount: <input type="number" name="amount" value="100">
+    Coin to: <input type="text" name="coin2" value="XRP">
 </form>
 <button onclick="getamount()">Get Result</button>
 <p>Result:</p>
